@@ -20,7 +20,14 @@
     "@walletconnect/auth-client": "^2.1.2",
     "@walletconnect/modal": "^2.7.0",
     "@walletconnect/sign-client": "^2.23.0",
+    "chalk": "^5.6.2",
+    "conf": "^15.0.2",
+    "enquirer": "^2.4.1",
     "oclif": "^4.22.47",
-    "viem": "^2.39.3"
+    "ora": "^9.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "table": "^6.9.0",
+    "viem": "^2.39.3",
+    "zod": "^4.1.12"
   }
 }
