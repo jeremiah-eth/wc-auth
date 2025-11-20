@@ -4,3 +4,5 @@ dist
 .env
 .bun
 bun.lockb
+oclif.manifest.json
+*.tsbuildinfo

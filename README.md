@@ -23,6 +23,18 @@
 
 ## Installation
 
+### Via Bun (Recommended)
+
+```bash
+# Install globally
+bun install -g wc-auth
+
+# Or use directly with bunx
+bunx wc-auth
+```
+
+### From Source
+
 ```bash
 # Clone the repository
 git clone https://github.com/jeremiah-eth/wc-auth.git
@@ -30,9 +42,6 @@ cd wc-auth
 
 # Install dependencies
 bun install
-
-# Build the project
-bun run build
 ```
 
 ## Configuration
@@ -47,7 +56,7 @@ Or pass it explicitly with the `--projectId` flag.
 
 ## Usage
 
-Run the CLI using `bun bin/run.ts` (or `bin/run.js` after build).
+Run commands using `wc-auth` (if installed globally) or `bun bin/run.ts` (from source).
 
 ### 1. Request Authentication
 
