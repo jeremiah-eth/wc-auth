@@ -15,6 +15,9 @@
     "bin": "wc-auth",
     "dirname": "wc-auth",
     "commands": "./src/commands",
+    "hooks": {
+      "init": "./src/hooks/init/load-theme"
+    },
     "plugins": [
       "@oclif/plugin-help"
     ],
