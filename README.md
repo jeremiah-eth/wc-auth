@@ -13,6 +13,8 @@
 - **📼 Replay**: Save and replay authentication sessions.
 - **⚡ Benchmark**: Measure wallet response latency.
 - **🎮 Playground**: Interactive mode for testing connections.
+- **🎨 Themes**: 5 beautiful color schemes (dracula, nord, monokai, solarized, default).
+- **📊 Output Formats**: Export data as JSON, YAML, or pretty-printed.
 
 ## Prerequisites
 
@@ -102,6 +104,43 @@ bun bin/run.ts benchmark --count 10
 Start interactive playground:
 ```bash
 bun bin/run.ts playground
+```
+
+### 6. Configuration & Themes
+
+**Manage themes:**
+```bash
+# Interactive theme selection
+bun bin/run.ts config theme
+
+# Set theme directly
+bun bin/run.ts config theme --set dracula
+
+# Available themes: default, dracula, nord, monokai, solarized
+```
+
+**View current configuration:**
+```bash
+bun bin/run.ts config show
+```
+
+**Save Project ID:**
+```bash
+bun bin/run.ts config projectId --set your_project_id
+```
+
+### 7. Output Formats
+
+Most commands support multiple output formats:
+```bash
+# JSON output
+bun bin/run.ts verify <jwt> --output json
+
+# YAML output
+bun bin/run.ts replay <session-id> --output yaml
+
+# Pretty output (default)
+bun bin/run.ts verify <jwt> --output pretty
 ```
 
 ## Development
