@@ -1,23 +1,19 @@
-import { Core } from '@walletconnect/core';
-import { WalletKit } from '@reown/walletkit';
-import type { IWalletKit } from '@reown/walletkit';
+import UniversalProvider from '@walletconnect/universal-provider';
 
 /**
- * Singleton wrapper for Reown WalletKit
- * WalletKit replaces the deprecated @walletconnect/auth-client and @walletconnect/sign-client
- * It provides both Sign API and Auth API (One-Click Auth) functionality
+ * Singleton wrapper for WalletConnect Universal Provider
+ * Acts as the dApp side to initiate authentication requests
  */
-class WalletKitSingleton {
-  private static instance: IWalletKit | null = null;
-  private static core: InstanceType<typeof Core> | null = null;
-  private static initPromise: Promise<IWalletKit> | null = null;
+class AuthClientSingleton {
+  private static instance: UniversalProvider | null = null;
+  private static initPromise: Promise<UniversalProvider> | null = null;
 
   /**
-   * Initialize or retrieve the WalletKit instance
-   * @param projectId - WalletConnect Project ID from https://dashboard.reown.com
-   * @returns Promise resolving to the WalletKit instance
+   * Initialize or retrieve the UniversalProvider instance
+   * @param projectId - WalletConnect Project ID
+   * @returns Promise resolving to the UniversalProvider instance
    */
-  static async getInstance(projectId?: string): Promise<IWalletKit> {
+  static async getInstance(projectId?: string): Promise<UniversalProvider> {
     // If already initialized, return the instance
     if (this.instance) {
       return this.instance;
@@ -39,23 +35,18 @@ class WalletKitSingleton {
   /**
    * Internal initialization method
    */
-  private static async initialize(projectId?: string): Promise<IWalletKit> {
+  private static async initialize(projectId?: string): Promise<UniversalProvider> {
     const finalProjectId = projectId || process.env.WALLETCONNECT_PROJECT_ID || '';
 
     if (!finalProjectId) {
       throw new Error(
-        'WalletConnect Project ID is required. Get one at https://dashboard.reown.com'
+        'WalletConnect Project ID is required. Get one at https://cloud.walletconnect.com'
       );
     }
 
-    // Initialize Core
-    this.core = new Core({
+    // Initialize Universal Provider
+    const provider = await UniversalProvider.init({
       projectId: finalProjectId,
-    });
-
-    // Initialize WalletKit with the Core instance
-    const walletKit = await WalletKit.init({
-      core: this.core,
       metadata: {
         name: 'wc-auth CLI',
         description: 'The definitive WalletConnect Auth CLI for Base builders',
@@ -64,29 +55,28 @@ class WalletKitSingleton {
       },
     });
 
-    // Set up event listeners for session proposals
-    walletKit.on('session_proposal', (proposal) => {
-      console.log('Session proposal received:', proposal);
+    // Set up event listeners
+    provider.on('display_uri', (uri: string) => {
+      console.log('Pairing URI:', uri);
     });
 
-    // Set up event listeners for session requests
-    walletKit.on('session_request', (request) => {
-      console.log('Session request received:', request);
+    provider.on('session_ping', ({ id, topic }: { id: number; topic: string }) => {
+      console.log('Session ping:', id, topic);
     });
 
-    // Set up event listeners for authentication requests (One-Click Auth)
-    walletKit.on('session_authenticate', (payload) => {
-      console.log('Authentication request received:', payload);
+    provider.on('session_event', ({ event, chainId }: { event: any; chainId: string }) => {
+      console.log('Session event:', event, chainId);
     });
 
-    return walletKit;
-  }
+    provider.on('session_update', ({ topic, params }: { topic: string; params: any }) => {
+      console.log('Session update:', topic, params);
+    });
 
-  /**
-   * Get the Core instance
-   */
-  static getCore(): InstanceType<typeof Core> | null {
-    return this.core;
+    provider.on('session_delete', ({ id, topic }: { id: number; topic: string }) => {
+      console.log('Session deleted:', id, topic);
+    });
+
+    return provider;
   }
 
   /**
@@ -94,16 +84,16 @@ class WalletKitSingleton {
    */
   static reset(): void {
     this.instance = null;
-    this.core = null;
     this.initPromise = null;
   }
 
   /**
    * Get the current instance without initializing
    */
-  static getCurrentInstance(): IWalletKit | null {
+  static getCurrentInstance(): UniversalProvider | null {
     return this.instance;
   }
 }
 
-export default WalletKitSingleton;
+export default AuthClientSingleton;
+

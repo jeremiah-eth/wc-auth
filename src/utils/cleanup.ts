@@ -1,4 +1,4 @@
-import WalletKitSingleton from '../lib/auth-client';
+import AuthClientSingleton from '../lib/auth-client';
 
 /**
  * Cleanup handler for graceful shutdown
@@ -51,33 +51,21 @@ class CleanupHandler {
      */
     private static async cleanup(): Promise<void> {
         try {
-            const walletKit = WalletKitSingleton.getCurrentInstance();
+            const provider = AuthClientSingleton.getCurrentInstance();
 
-            if (walletKit) {
-                console.log('Disconnecting WalletConnect sessions...');
+            if (provider && provider.session) {
+                console.log('Disconnecting WalletConnect session...');
 
-                // Get all active sessions
-                const sessions = walletKit.getActiveSessions();
-
-                // Disconnect all sessions
-                for (const [topic, session] of Object.entries(sessions)) {
-                    try {
-                        await walletKit.disconnectSession({
-                            topic,
-                            reason: {
-                                code: 6000,
-                                message: 'User disconnected',
-                            },
-                        });
-                        console.log(`Disconnected session: ${topic}`);
-                    } catch (error) {
-                        console.error(`Error disconnecting session ${topic}:`, error);
-                    }
+                try {
+                    await provider.disconnect();
+                    console.log('Disconnected session');
+                } catch (error) {
+                    console.error('Error disconnecting session:', error);
                 }
             }
 
             // Reset the singleton
-            WalletKitSingleton.reset();
+            AuthClientSingleton.reset();
             console.log('Cleanup complete');
         } catch (error) {
             console.error('Error during cleanup:', error);
