@@ -1,15 +1,30 @@
 {
   "name": "wc-auth",
+  "version": "0.1.0",
+  "description": "The definitive WalletConnect Auth CLI for Base builders",
   "module": "index.ts",
   "type": "module",
+  "bin": {
+    "wc-auth": "./bin/run.ts"
+  },
   "scripts": {
     "start": "bun run index.ts",
     "test": "bun test"
+  },
+  "oclif": {
+    "bin": "wc-auth",
+    "dirname": "wc-auth",
+    "commands": "./src/commands",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "topicSeparator": " "
   },
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^24.10.1",
+    "@types/qrcode-terminal": "^0.12.2",
     "@vitest/ui": "^4.0.12",
     "eslint": "^9.39.1",
     "husky": "^9.1.7",

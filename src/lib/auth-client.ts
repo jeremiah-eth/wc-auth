@@ -9,7 +9,7 @@ import type { IWalletKit } from '@reown/walletkit';
  */
 class WalletKitSingleton {
   private static instance: IWalletKit | null = null;
-  private static core: Core | null = null;
+  private static core: InstanceType<typeof Core> | null = null;
   private static initPromise: Promise<IWalletKit> | null = null;
 
   /**
@@ -85,7 +85,7 @@ class WalletKitSingleton {
   /**
    * Get the Core instance
    */
-  static getCore(): Core | null {
+  static getCore(): InstanceType<typeof Core> | null {
     return this.core;
   }
 
