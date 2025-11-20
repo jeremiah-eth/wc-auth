@@ -8,7 +8,14 @@
   },
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^24.10.1",
+    "@vitest/ui": "^4.0.12",
+    "eslint": "^9.39.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.6.2",
+    "vitest": "^4.0.12"
   },
   "peerDependencies": {
     "typescript": "^5"
