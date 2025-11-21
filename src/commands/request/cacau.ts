@@ -1,6 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 import chalk from 'chalk';
 import ora from 'ora';
+import { createSiweMessage } from 'viem/siwe';
 import AuthClientSingleton from '../../lib/auth-client.js';
 import CleanupHandler from '../../utils/cleanup.js';
 
@@ -69,50 +70,69 @@ export default class RequestCacau extends Command {
             if (!firstAccount) throw new Error('No accounts found');
 
             const address = firstAccount.split(':')[2];
+            const chainId = parseInt(flags.chain.split(':')[1]);
             this.log(chalk.green(`\n✓ Connected: ${address}`));
 
-            // Construct Cacau payload (Simplified for demo)
-            // In a real scenario, this would involve constructing a proper Cacao object
-            // For now, we'll simulate the flow with a structured message
-            const cacaoPayload = {
+            // 1. Construct SIWE Message (which serves as the Cacao Payload)
+            const nonce = Math.random().toString(36).substring(2, 15);
+            const issuedAt = new Date().toISOString();
+            const statement = 'Sign in with Cacau capability';
+            const uri = `https://${flags.domain}`;
+            const version = '1';
+            const resources = ['urn:recap:eyJhdHQiOnsiY2hhdCI6eyJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSJdfX19']; // Example ReCap
+
+            const message = createSiweMessage({
+                address: address as `0x${string}`,
+                chainId: chainId,
                 domain: flags.domain,
-                address,
-                statement: 'Sign in with Cacau capability',
-                uri: `https://${flags.domain}`,
-                version: '1',
-                chainId: flags.chain.split(':')[1],
-                nonce: Math.random().toString(36).substring(2, 15),
-                issuedAt: new Date().toISOString(),
-                resources: ['urn:recap:eyJhdHQiOnsiY2hhdCI6eyJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSJdfX19'] // Example ReCap
-            };
+                nonce,
+                uri,
+                version,
+                statement,
+                resources,
+            });
 
-            this.log(chalk.yellow('\n📝 Requesting signature for Cacau payload:'));
-            this.log(chalk.gray(JSON.stringify(cacaoPayload, null, 2)));
+            this.log(chalk.yellow('\n📝 Requesting signature for Cacao payload:'));
+            this.log(chalk.gray(message));
 
-            // We'll use personal_sign for the demo as standard wallets might not support specific cacao methods yet
-            // But the payload structure mimics the intent
-            const message = `
-${cacaoPayload.domain} wants you to sign in with your Ethereum account:
-${cacaoPayload.address}
-
-${cacaoPayload.statement}
-
-URI: ${cacaoPayload.uri}
-Version: ${cacaoPayload.version}
-Chain ID: ${cacaoPayload.chainId}
-Nonce: ${cacaoPayload.nonce}
-Issued At: ${cacaoPayload.issuedAt}
-Resources:
-- ${cacaoPayload.resources[0]}
-`.trim();
-
+            // 2. Request Signature
             const signature = await provider.request({
                 method: 'personal_sign',
                 params: [message, address],
             });
 
             this.log(chalk.green('\n✓ Signature received!'));
-            this.log(chalk.gray(signature));
+
+            // 3. Construct Cacao Object
+            const cacao = {
+                h: {
+                    t: 'eip4361', // Header type for SIWE-based Cacao
+                },
+                p: {
+                    iss: `did:pkh:${flags.chain}:${address}`,
+                    domain: flags.domain,
+                    aud: uri, // Audience is usually the URI in SIWE mapping
+                    version,
+                    nonce,
+                    iat: issuedAt,
+                    statement,
+                    requestId: undefined,
+                    resources,
+                },
+                s: {
+                    t: 'eip191', // Signature type
+                    s: signature,
+                    m: message, // Optional: include message for easier verification
+                },
+            };
+
+            this.log(chalk.green('\n🥥 Cacao Object Created:'));
+            this.log(chalk.gray(JSON.stringify(cacao, null, 2)));
+
+            // Base64 encode for easy transport/verification
+            const base64Cacao = Buffer.from(JSON.stringify(cacao)).toString('base64');
+            this.log(chalk.yellow('\n📦 Base64 Encoded Cacao (use with verify command):'));
+            this.log(base64Cacao);
 
             this.log(chalk.yellow('\nPress Ctrl+C to exit'));
             await new Promise(() => { });

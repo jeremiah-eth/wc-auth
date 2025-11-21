@@ -1,6 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 import chalk from 'chalk';
 import ora from 'ora';
+import { select, input } from '@inquirer/prompts';
 import AuthClientSingleton from '../lib/auth-client.js';
 import CleanupHandler from '../utils/cleanup.js';
 
@@ -56,8 +57,8 @@ export default class Playground extends Command {
       await provider.connect({
         namespaces: {
           eip155: {
-            methods: ['personal_sign', 'eth_sendTransaction'],
-            chains: ['eip155:8453'], // Base
+            methods: ['personal_sign', 'eth_sendTransaction', 'eth_signTypedData'],
+            chains: ['eip155:8453', 'eip155:1'], // Base, Mainnet
             events: ['chainChanged', 'accountsChanged'],
           },
         },
@@ -68,11 +69,72 @@ export default class Playground extends Command {
 
       const session = provider.session;
       this.log(chalk.green(`\n✓ Connected to wallet!`));
-      this.log(chalk.gray(JSON.stringify(session, null, 2)));
 
-      // Keep the process running
-      this.log(chalk.yellow('\n Press Ctrl+C to exit'));
-      await new Promise(() => { }); // Keep alive
+      const accounts = session?.namespaces.eip155?.accounts || [];
+      const address = accounts[0]?.split(':')[2];
+      this.log(chalk.gray(`Address: ${address}`));
+
+      // Interactive Loop
+      let running = true;
+      while (running) {
+        const action = await select({
+          message: 'Select an action:',
+          choices: [
+            { name: 'Personal Sign', value: 'personal_sign' },
+            { name: 'Send Transaction (Mock)', value: 'eth_sendTransaction' },
+            { name: 'View Session Details', value: 'session_details' },
+            { name: 'Disconnect & Exit', value: 'exit' },
+          ],
+        });
+
+        try {
+          switch (action) {
+            case 'personal_sign': {
+              const message = await input({ message: 'Enter message to sign:', default: 'Hello from wc-auth!' });
+              this.log(chalk.yellow('Requesting signature...'));
+              const signature = await provider.request({
+                method: 'personal_sign',
+                params: [message, address],
+              });
+              this.log(chalk.green('\n✓ Signature received:'));
+              this.log(chalk.gray(signature));
+              break;
+            }
+            case 'eth_sendTransaction': {
+              this.log(chalk.yellow('Requesting mock transaction...'));
+              // Mock transaction
+              const tx = {
+                from: address,
+                to: address, // Send to self
+                data: '0x',
+                value: '0x0', // 0 ETH
+              };
+              const hash = await provider.request({
+                method: 'eth_sendTransaction',
+                params: [tx],
+              });
+              this.log(chalk.green('\n✓ Transaction sent:'));
+              this.log(chalk.gray(hash));
+              break;
+            }
+            case 'session_details': {
+              this.log(chalk.cyan('\nSession Details:'));
+              console.log(JSON.stringify(provider.session, null, 2));
+              break;
+            }
+            case 'exit': {
+              running = false;
+              await provider.disconnect();
+              this.log(chalk.yellow('Disconnected.'));
+              process.exit(0);
+            }
+          }
+        } catch (error) {
+          this.log(chalk.red(`\n❌ Action failed: ${(error as Error).message}`));
+        }
+
+        this.log(chalk.gray('─'.repeat(50)));
+      }
 
     } catch (error) {
       spinner.fail('Failed to initialize');
