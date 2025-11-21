@@ -162,9 +162,9 @@ wc-auth replay <session-id> --output yaml
 wc-auth verify <jwt> --output pretty
 ```
 
-## Development
+## Contribution
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed developer documentation.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution documentation.
 
 ```bash
 # Run tests
