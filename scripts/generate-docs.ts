@@ -3,7 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const ROOT_DIR = path.resolve(__dirname, '..');
-const OUTPUT_FILE = path.join(ROOT_DIR, 'readme.html');
+const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
+const OUTPUT_FILE = path.join(OUTPUT_DIR, 'index.html');
+
+// Ensure docs directory exists
+if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+}
 
 // Configuration for the docs
 const DOCS = [
