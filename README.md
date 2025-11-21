@@ -23,7 +23,17 @@
 
 ## Installation
 
-### Via Bun (Recommended)
+### Via npm (Recommended)
+
+```bash
+# Install globally
+npm install -g wc-auth
+
+# Or use directly with npx
+npx wc-auth
+```
+
+### Via Bun
 
 ```bash
 # Install globally
@@ -62,57 +72,57 @@ Run commands using `wc-auth` (if installed globally) or `bun bin/run.ts` (from s
 
 **Sign-In with Ethereum (SIWE)**
 ```bash
-bun bin/run.ts request:siwe --chain eip155:8453 --domain my-app.reown.com
+wc-auth request:siwe --chain eip155:8453 --domain my-app.reown.com
 ```
 
 **Cacau (CAIP-74)**
 ```bash
-bun bin/run.ts request:cacau --chain eip155:1
+wc-auth request:cacau --chain eip155:1
 ```
 
 **Mock Auth Flows**
 ```bash
 # Email
-bun bin/run.ts request:email --email test@example.com
+wc-auth request:email --email test@example.com
 
 # Passkey
-bun bin/run.ts request:passkey
+wc-auth request:passkey
 
 # Social
-bun bin/run.ts request:social --provider google
+wc-auth request:social --provider google
 ```
 
 ### 2. Verify Tokens
 
 Decode and inspect a JWT:
 ```bash
-bun bin/run.ts verify <jwt_string>
+wc-auth verify <jwt_string>
 ```
 
 ### 3. Session Management
 
 **List saved sessions:**
 ```bash
-bun bin/run.ts replay
+wc-auth replay
 ```
 
 **View session details:**
 ```bash
-bun bin/run.ts replay <session_id>
+wc-auth replay <session_id>
 ```
 
 ### 4. Benchmarking
 
 Measure wallet latency:
 ```bash
-bun bin/run.ts benchmark --count 10
+wc-auth benchmark --count 10
 ```
 
 ### 5. Playground
 
 Start interactive playground:
 ```bash
-bun bin/run.ts playground
+wc-auth playground
 ```
 
 ### 6. Configuration & Themes
@@ -120,22 +130,22 @@ bun bin/run.ts playground
 **Manage themes:**
 ```bash
 # Interactive theme selection
-bun bin/run.ts config theme
+wc-auth config theme
 
 # Set theme directly
-bun bin/run.ts config theme --set dracula
+wc-auth config theme --set dracula
 
 # Available themes: default, dracula, nord, monokai, solarized
 ```
 
 **View current configuration:**
 ```bash
-bun bin/run.ts config show
+wc-auth config show
 ```
 
 **Save Project ID:**
 ```bash
-bun bin/run.ts config projectId --set your_project_id
+wc-auth config projectId --set your_project_id
 ```
 
 ### 7. Output Formats
@@ -143,13 +153,13 @@ bun bin/run.ts config projectId --set your_project_id
 Most commands support multiple output formats:
 ```bash
 # JSON output
-bun bin/run.ts verify <jwt> --output json
+wc-auth verify <jwt> --output json
 
 # YAML output
-bun bin/run.ts replay <session-id> --output yaml
+wc-auth replay <session-id> --output yaml
 
 # Pretty output (default)
-bun bin/run.ts verify <jwt> --output pretty
+wc-auth verify <jwt> --output pretty
 ```
 
 ## Development
