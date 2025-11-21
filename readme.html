@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wc-auth Documentation</title>
+    <style>
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #24292f;
+        --link-color: #0969da;
+        --border-color: #d0d7de;
+        --code-bg: #f6f8fa;
+        --sidebar-bg: #f6f8fa;
+        --sidebar-hover: #eef1f4;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --link-color: #58a6ff;
+            --border-color: #30363d;
+            --code-bg: #161b22;
+            --sidebar-bg: #010409;
+            --sidebar-hover: #161b22;
+        }
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1rem;
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+
+    .sidebar h1 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-left: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .nav-link {
+        display: block;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        border-radius: 6px;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .nav-link:hover {
+        background-color: var(--sidebar-hover);
+        text-decoration: none;
+    }
+
+    .nav-link.active {
+        background-color: var(--link-color);
+        color: white;
+    }
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem 4rem;
+        max-width: 900px;
+    }
+
+    /* Markdown Styles */
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    h1 { font-size: 2em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+    h2 { font-size: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+    h3 { font-size: 1.25em; }
+
+    a { color: var(--link-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    code {
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+        background-color: var(--code-bg);
+        border-radius: 6px;
+        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    }
+
+    pre {
+        padding: 16px;
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        background-color: var(--code-bg);
+        border-radius: 6px;
+    }
+
+    pre code {
+        background-color: transparent;
+        padding: 0;
+    }
+
+    blockquote {
+        padding: 0 1em;
+        color: var(--text-color);
+        border-left: 0.25em solid var(--border-color);
+        margin: 0;
+        opacity: 0.8;
+    }
+
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        margin-top: 0;
+        margin-bottom: 16px;
+        width: 100%;
+    }
+
+    table th, table td {
+        padding: 6px 13px;
+        border: 1px solid var(--border-color);
+    }
+
+    table tr:nth-child(2n) {
+        background-color: var(--code-bg);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        body { flex-direction: column; }
+        .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); padding: 1rem; }
+        .main-content { padding: 1rem; }
+    }
+</style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h1>wc-auth</h1>
+        <a href="#overview" class="nav-link">Overview</a><a href="#contributing" class="nav-link">Contributing</a>
+    </nav>
+    <main class="main-content">
+        <section id="overview" class="doc-section"><h1>wc-auth</h1>
+<p><strong>The definitive WalletConnect Auth CLI for Base builders.</strong></p>
+<p><code>wc-auth</code> is a powerful CLI tool designed to act as a &quot;Postman for WalletConnect Auth&quot;. It allows developers to test, verify, and benchmark WalletConnect authentication flows directly from the terminal.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>🔐 SIWE (Sign-In with Ethereum)</strong>: Initiate and verify SIWE requests.</li>
+<li><strong>🥥 Cacau (CAIP-74)</strong>: Support for Chain-Agnostic Capability User Authentication.</li>
+<li><strong>📧 Mock Auth</strong>: Simulate Email, Passkey, and Social login flows.</li>
+<li><strong>🔍 Verify</strong>: Decode and inspect JWTs and Cacao objects.</li>
+<li><strong>📼 Replay</strong>: Save and replay authentication sessions.</li>
+<li><strong>⚡ Benchmark</strong>: Measure wallet response latency.</li>
+<li><strong>🎮 Playground</strong>: Interactive mode for testing connections.</li>
+<li><strong>🎨 Themes</strong>: 5 beautiful color schemes (dracula, nord, monokai, solarized, default).</li>
+<li><strong>📊 Output Formats</strong>: Export data as JSON, YAML, or pretty-printed.</li>
+</ul>
+<h2>Prerequisites</h2>
+<ul>
+<li><strong>Bun</strong>: This project is built exclusively with <a href="https://bun.com">Bun</a>.</li>
+<li><strong>WalletConnect Project ID</strong>: Get one at <a href="https://cloud.reown.com">cloud.reown.com</a>.</li>
+</ul>
+<h2>Installation</h2>
+<h3>Via npm (Recommended)</h3>
+<pre><code class="language-bash"># Install globally
+npm install -g wc-auth
+
+# Or use directly with npx
+npx wc-auth
+</code></pre>
+<h3>Via Bun</h3>
+<pre><code class="language-bash"># Install globally
+bun install -g wc-auth
+
+# Or use directly with bunx
+bunx wc-auth
+</code></pre>
+<h3>From Source</h3>
+<pre><code class="language-bash"># Clone the repository
+git clone https://github.com/jeremiah-eth/wc-auth.git
+cd wc-auth
+
+# Install dependencies
+bun install
+</code></pre>
+<h2>Configuration</h2>
+<p>Set your WalletConnect Project ID as an environment variable:</p>
+<pre><code class="language-bash">export WALLETCONNECT_PROJECT_ID=&quot;your_project_id_here&quot;
+</code></pre>
+<p>Or pass it explicitly with the <code>--projectId</code> flag.</p>
+<h2>Usage</h2>
+<p>Run commands using <code>wc-auth</code> (if installed globally) or <code>bun bin/run.ts</code> (from source).</p>
+<h3>1. Request Authentication</h3>
+<p><strong>Sign-In with Ethereum (SIWE)</strong></p>
+<pre><code class="language-bash">wc-auth request:siwe --chain eip155:8453 --domain my-app.reown.com
+</code></pre>
+<p><strong>Cacau (CAIP-74)</strong></p>
+<pre><code class="language-bash">wc-auth request:cacau --chain eip155:1
+</code></pre>
+<p><strong>Mock Auth Flows</strong></p>
+<pre><code class="language-bash"># Email
+wc-auth request:email --email test@example.com
+
+# Passkey
+wc-auth request:passkey
+
+# Social
+wc-auth request:social --provider google
+</code></pre>
+<h3>2. Verify Tokens</h3>
+<p>Decode and inspect a JWT:</p>
+<pre><code class="language-bash">wc-auth verify &lt;jwt_string&gt;
+</code></pre>
+<h3>3. Session Management</h3>
+<p><strong>List saved sessions:</strong></p>
+<pre><code class="language-bash">wc-auth replay
+</code></pre>
+<p><strong>View session details:</strong></p>
+<pre><code class="language-bash">wc-auth replay &lt;session_id&gt;
+</code></pre>
+<h3>4. Benchmarking</h3>
+<p>Measure wallet latency:</p>
+<pre><code class="language-bash">wc-auth benchmark --count 10
+</code></pre>
+<h3>5. Playground</h3>
+<p>Start interactive playground:</p>
+<pre><code class="language-bash">wc-auth playground
+</code></pre>
+<h3>6. Configuration &amp; Themes</h3>
+<p><strong>Manage themes:</strong></p>
+<pre><code class="language-bash"># Interactive theme selection
+wc-auth config theme
+
+# Set theme directly
+wc-auth config theme --set dracula
+
+# Available themes: default, dracula, nord, monokai, solarized
+</code></pre>
+<p><strong>View current configuration:</strong></p>
+<pre><code class="language-bash">wc-auth config show
+</code></pre>
+<p><strong>Save Project ID:</strong></p>
+<pre><code class="language-bash">wc-auth config projectId --set your_project_id
+</code></pre>
+<h3>7. Output Formats</h3>
+<p>Most commands support multiple output formats:</p>
+<pre><code class="language-bash"># JSON output
+wc-auth verify &lt;jwt&gt; --output json
+
+# YAML output
+wc-auth replay &lt;session-id&gt; --output yaml
+
+# Pretty output (default)
+wc-auth verify &lt;jwt&gt; --output pretty
+</code></pre>
+<h2>Development</h2>
+<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed developer documentation.</p>
+<pre><code class="language-bash"># Run tests
+bun test
+
+# Lint code
+bun run lint
+</code></pre>
+<h2>License</h2>
+<p>MIT</p>
+</section><hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);"><section id="contributing" class="doc-section"><h1>Contributing to wc-auth</h1>
+<p>Thank you for your interest in contributing to <code>wc-auth</code>! This document provides a guide for developers who want to work on the codebase.</p>
+<h2>🛠 Prerequisites</h2>
+<ul>
+<li><strong>Bun</strong>: This project is built exclusively with <a href="https://bun.com">Bun</a>. Ensure you have it installed.</li>
+<li><strong>Node.js</strong>: Required for some underlying dependencies (v18+).</li>
+<li><strong>Git</strong>: For version control.</li>
+</ul>
+<h2>🚀 Setup</h2>
+<ol>
+<li><p><strong>Clone the repository:</strong></p>
+<pre><code class="language-bash">git clone https://github.com/jeremiah-eth/wc-auth.git
+cd wc-auth
+</code></pre>
+</li>
+<li><p><strong>Install dependencies:</strong></p>
+<pre><code class="language-bash">bun install
+</code></pre>
+</li>
+<li><p><strong>Environment Setup:</strong>
+Create a <code>.env</code> file (optional, as you can pass flags) or export variables:</p>
+<pre><code class="language-bash">export WALLETCONNECT_PROJECT_ID=&quot;your_project_id&quot;
+</code></pre>
+</li>
+</ol>
+<h2>📂 Project Structure</h2>
+<p>The project uses the <a href="https://oclif.io">Oclif</a> framework.</p>
+<pre><code>wc-auth/
+├── bin/
+│   └── run.ts          # CLI entry point
+├── src/
+│   ├── commands/       # Oclif commands (the core logic)
+│   │   ├── request/    # Sub-commands for &#39;request&#39; (siwe, cacau, etc.)
+│   │   ├── config.ts   # Configuration command
+│   │   └── ...
+│   ├── hooks/          # Oclif hooks (e.g., init hook for themes)
+│   ├── lib/
+│   │   └── auth-client.ts # Singleton wrapper for WalletConnect UniversalProvider
+│   └── utils/
+│       ├── cleanup.ts      # Graceful shutdown handler
+│       ├── config.ts       # Persistent configuration (conf)
+│       ├── output-formatter.ts # JSON/YAML/Pretty output logic
+│       └── theme-manager.ts    # Color theme logic
+├── test/               # Tests (Vitest)
+└── package.json
+</code></pre>
+<h2>💻 Development Workflow</h2>
+<h3>Running Locally</h3>
+<p>You can run the CLI directly from the source using <code>bun</code>:</p>
+<pre><code class="language-bash"># Run a command
+bun bin/run.ts request:siwe --chain eip155:8453
+
+# Run help
+bun bin/run.ts --help
+</code></pre>
+<h3>Testing</h3>
+<p>We use <a href="https://vitest.dev">Vitest</a> for testing.</p>
+<pre><code class="language-bash"># Run all tests
+bun test
+
+# Run tests with UI
+bun test --ui
+</code></pre>
+<h3>Linting &amp; Formatting</h3>
+<pre><code class="language-bash"># Lint code
+bun run lint
+</code></pre>
+<h2>🏗 Architecture</h2>
+<h3>AuthClientSingleton (<code>src/lib/auth-client.ts</code>)</h3>
+<p>This is the core of the WalletConnect integration. It ensures a single instance of <code>UniversalProvider</code> is initialized and shared across commands. It handles:</p>
+<ul>
+<li>Initialization with Project ID.</li>
+<li>Session persistence (via <code>UniversalProvider</code>&#39;s internal storage).</li>
+<li>Event listeners.</li>
+</ul>
+<h3>Theme System (<code>src/utils/theme-manager.ts</code>)</h3>
+<p>A centralized theme manager that handles color schemes. It exports a <code>Theme</code> interface and several presets. The <code>init</code> hook loads the user&#39;s preferred theme on startup.</p>
+<h3>Configuration (<code>src/utils/config.ts</code>)</h3>
+<p>Uses the <code>conf</code> library to persist user settings (theme, project ID) to the system&#39;s config directory.</p>
+<h2>📦 Release Process</h2>
+<p>To release a new version to npm:</p>
+<ol>
+<li><p><strong>Bump Version:</strong></p>
+<pre><code class="language-bash">npm version patch # or minor/major
+</code></pre>
+<p>This updates <code>package.json</code> and creates a git tag.</p>
+</li>
+<li><p><strong>Publish:</strong></p>
+<pre><code class="language-bash">npm publish
+</code></pre>
+</li>
+<li><p><strong>Push Tags:</strong></p>
+<pre><code class="language-bash">git push --follow-tags
+</code></pre>
+</li>
+</ol>
+<h2>🤝 Contributing</h2>
+<ol>
+<li>Fork the repository.</li>
+<li>Create a feature branch (<code>git checkout -b feature/amazing-feature</code>).</li>
+<li>Commit your changes (<code>git commit -m &#39;feat: add amazing feature&#39;</code>).</li>
+<li>Push to the branch (<code>git push origin feature/amazing-feature</code>).</li>
+<li>Open a Pull Request.</li>
+</ol>
+<p>Please ensure your code passes linting and tests before submitting!</p>
+</section><hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+    </main>
+    <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Update active state
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            
+            // Scroll to section
+            const targetId = link.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+</body>
+</html>
+    
