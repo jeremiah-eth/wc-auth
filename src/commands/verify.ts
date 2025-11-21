@@ -2,7 +2,7 @@ import { Command, Args, Flags } from '@oclif/core';
 import chalk from 'chalk';
 import { decodeJwt, decodeProtectedHeader } from 'jose';
 import { table } from 'table';
-import { OutputFormatter, type OutputFormat } from '../utils/output-formatter';
+import { OutputFormatter, type OutputFormat } from '../utils/output-formatter.js';
 
 export default class Verify extends Command {
     static override description = 'Verify and decode a JWT token';

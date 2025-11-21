@@ -2,8 +2,8 @@ import { Command, Flags } from '@oclif/core';
 import chalk from 'chalk';
 import ora from 'ora';
 import qrcode from 'qrcode-terminal';
-import AuthClientSingleton from '../lib/auth-client';
-import CleanupHandler from '../utils/cleanup';
+import AuthClientSingleton from '../lib/auth-client.js';
+import CleanupHandler from '../utils/cleanup.js';
 
 export default class Playground extends Command {
   static override description = 'Start an interactive WalletConnect Auth playground server';

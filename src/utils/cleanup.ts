@@ -1,4 +1,4 @@
-import AuthClientSingleton from '../lib/auth-client';
+import AuthClientSingleton from '../lib/auth-client.js';
 
 /**
  * Cleanup handler for graceful shutdown

@@ -1,8 +1,8 @@
 import { Command, Flags, Args } from '@oclif/core';
 import chalk from 'chalk';
 import { select } from '@inquirer/prompts';
-import { config } from '../utils/config';
-import { ThemeManager, type ThemeName } from '../utils/theme-manager';
+import { config } from '../utils/config.js';
+import { ThemeManager, type ThemeName } from '../utils/theme-manager.js';
 
 export default class Config extends Command {
     static override description = 'Manage CLI configuration';
@@ -70,7 +70,7 @@ export default class Config extends Command {
                 const currentTheme = config.getTheme();
                 const theme = await select({
                     message: 'Select a theme:',
-                    choices: ThemeManager.listThemes().map(t => ({
+                    choices: ThemeManager.listThemes().map((t: ThemeName) => ({
                         name: t,
                         value: t,
                         description: t === currentTheme ? '(current)' : '',

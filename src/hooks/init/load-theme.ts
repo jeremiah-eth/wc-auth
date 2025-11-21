@@ -1,6 +1,6 @@
 import type { Hook } from '@oclif/core';
-import { config } from '../../utils/config';
-import { ThemeManager } from '../../utils/theme-manager';
+import { config } from '../../utils/config.js';
+import { ThemeManager } from '../../utils/theme-manager.js';
 
 const hook: Hook<'init'> = async function () {
     // Load saved theme

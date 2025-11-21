@@ -5,8 +5,8 @@ import { createSiweMessage } from 'viem/siwe';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import AuthClientSingleton from '../../lib/auth-client';
-import CleanupHandler from '../../utils/cleanup';
+import AuthClientSingleton from '../../lib/auth-client.js';
+import CleanupHandler from '../../utils/cleanup.js';
 
 export default class RequestSiwe extends Command {
     static override description = 'Request Sign-In with Ethereum (SIWE) authentication';

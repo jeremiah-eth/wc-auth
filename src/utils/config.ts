@@ -1,5 +1,5 @@
 import Conf from 'conf';
-import { type ThemeName } from './theme-manager';
+import { type ThemeName } from './theme-manager.js';
 
 interface ConfigSchema {
     theme: ThemeName;

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import { table } from 'table';
-import { OutputFormatter, type OutputFormat } from '../utils/output-formatter';
+import { OutputFormatter, type OutputFormat } from '../utils/output-formatter.js';
 
 export default class Replay extends Command {
     static override description = 'Replay/View a saved session';

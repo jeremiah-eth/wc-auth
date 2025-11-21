@@ -1,8 +1,8 @@
 import { Command, Flags } from '@oclif/core';
 import chalk from 'chalk';
 import ora from 'ora';
-import AuthClientSingleton from '../../lib/auth-client';
-import CleanupHandler from '../../utils/cleanup';
+import AuthClientSingleton from '../../lib/auth-client.js';
+import CleanupHandler from '../../utils/cleanup.js';
 
 export default class RequestCacau extends Command {
     static override description = 'Request CAIP-74 (Cacau) authentication';
