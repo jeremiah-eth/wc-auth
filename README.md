@@ -164,6 +164,8 @@ wc-auth verify <jwt> --output pretty
 
 ## Development
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed developer documentation.
+
 ```bash
 # Run tests
 bun test
