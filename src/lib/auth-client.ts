@@ -64,11 +64,11 @@ class AuthClientSingleton {
       console.log('Session ping:', id, topic);
     });
 
-    provider.on('session_event', ({ event, chainId }: { event: any; chainId: string }) => {
+    provider.on('session_event', ({ event, chainId }: { event: Record<string, unknown>; chainId: string }) => {
       console.log('Session event:', event, chainId);
     });
 
-    provider.on('session_update', ({ topic, params }: { topic: string; params: any }) => {
+    provider.on('session_update', ({ topic, params }: { topic: string; params: Record<string, unknown> }) => {
       console.log('Session update:', topic, params);
     });
 

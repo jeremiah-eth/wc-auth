@@ -4,7 +4,7 @@ import { stringify as yamlStringify } from 'yaml';
 export type OutputFormat = 'json' | 'yaml' | 'pretty';
 
 export class OutputFormatter {
-    static format(data: any, format: OutputFormat = 'pretty'): string {
+    static format(data: unknown, format: OutputFormat = 'pretty'): string {
         switch (format) {
             case 'json':
                 return JSON.stringify(data, null, 2);
@@ -16,7 +16,7 @@ export class OutputFormatter {
         }
     }
 
-    private static prettyFormat(data: any, indent = 0): string {
+    private static prettyFormat(data: unknown, indent = 0): string {
         const spaces = '  '.repeat(indent);
 
         if (typeof data !== 'object' || data === null) {
@@ -40,7 +40,7 @@ export class OutputFormatter {
             .join('\n');
     }
 
-    static print(data: any, format: OutputFormat = 'pretty'): void {
+    static print(data: unknown, format: OutputFormat = 'pretty'): void {
         console.log(this.format(data, format));
     }
 }
