@@ -8,6 +8,7 @@
         "@oclif/core": "^4.8.0",
         "@oclif/plugin-help": "^6.2.36",
         "@oclif/plugin-plugins": "^5.4.54",
+        "@oclif/test": "^4.1.15",
         "@walletconnect/core": "^2.23.0",
         "@walletconnect/universal-provider": "^2.23.0",
         "@walletconnect/utils": "^2.23.0",
@@ -260,6 +261,8 @@
     "@oclif/plugin-plugins": ["@oclif/plugin-plugins@5.4.54", "", { "dependencies": { "@oclif/core": "^4.8.0", "ansis": "^3.17.0", "debug": "^4.4.0", "npm": "^10.9.4", "npm-package-arg": "^11.0.3", "npm-run-path": "^5.3.0", "object-treeify": "^4.0.1", "semver": "^7.7.3", "validate-npm-package-name": "^5.0.1", "which": "^4.0.0", "yarn": "^1.22.22" } }, "sha512-yzdukEfvvyXx31AhN+YhxLhuQdx2SrZDcRtPl5CNkuqh/uNSB2BuA3xpurdv2qotpaw/Z9InRl+Sa9bLp/4aLA=="],
 
     "@oclif/plugin-warn-if-update-available": ["@oclif/plugin-warn-if-update-available@3.1.53", "", { "dependencies": { "@oclif/core": "^4", "ansis": "^3.17.0", "debug": "^4.4.3", "http-call": "^5.2.2", "lodash": "^4.17.21", "registry-auth-token": "^5.1.0" } }, "sha512-ALxKMNFFJQJV1Z2OMVTV+q7EbKHhnTAPcTgkgHeXCNdW5nFExoXuwusZLS4Zv2o83j9UoDx1R/CSX7QZVgEHTA=="],
+
+    "@oclif/test": ["@oclif/test@4.1.15", "", { "dependencies": { "ansis": "^3.17.0", "debug": "^4.4.3" }, "peerDependencies": { "@oclif/core": ">= 3.0.0" } }, "sha512-OVTmz3RxnOWYPoE9sbB9Przfph+QSLMvHUfqEwXZKupuOHCJAJX0QDUfVyh1pK+XYEQ2RUaF+qhxqBfIfaahBw=="],
 
     "@pnpm/config.env-replace": ["@pnpm/config.env-replace@1.1.0", "", {}, "sha512-htyl8TWnKL7K/ESFa1oW2UB5lVDxuF5DpM7tBi6Hu2LNL3mWkIzNLG6N4zoCUP1lCKNxWy/3iu8mS8MvToGd6w=="],
 
