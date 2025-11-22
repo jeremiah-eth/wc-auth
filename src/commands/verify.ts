@@ -48,6 +48,9 @@ export default class Verify extends Command {
             options: ['json', 'yaml', 'pretty'],
             default: 'pretty',
         }),
+        rpc: Flags.string({
+            description: 'RPC URL for EIP-1271 Smart Account verification',
+        }),
     };
 
     async run(): Promise<void> {
