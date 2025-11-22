@@ -587,4 +587,4 @@ Built with:
 
 ---
 
-**Made with ❤️ for Base builders**
+**Made for Base builders**
