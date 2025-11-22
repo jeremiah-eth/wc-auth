@@ -1,0 +1,11 @@
+description: WalletConnect Auth Test Suite
+cases:
+  - name: SIWE Request Generation
+    command: wc-auth request:siwe --domain example.com --uri https://example.com --chainId 1
+    expectations:
+      tokenClaims:
+        iss: did:pkh:eip155:1:0x...
+  - name: Verify Valid Token
+    command: wc-auth verify <TOKEN>
+    expectations:
+      maxResponseTimeMs: 2000
