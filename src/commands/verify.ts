@@ -78,7 +78,7 @@ export default class Verify extends Command {
                     // Check if it looks like JSON
                     if (decoded.trim().startsWith('{')) {
                         const cacao = JSON.parse(decoded) as Cacao;
-                        result = await this.handleCacao(cacao, verificationStatus);
+                        result = await this.handleCacao(cacao, verificationStatus, flags.rpc);
                     } else {
                         throw new Error('Not a valid Cacao object');
                     }
@@ -86,7 +86,7 @@ export default class Verify extends Command {
                     // If not base64 JSON, maybe it's raw JSON
                     try {
                         const cacao = JSON.parse(token) as Cacao;
-                        result = await this.handleCacao(cacao, verificationStatus);
+                        result = await this.handleCacao(cacao, verificationStatus, flags.rpc);
                     } catch (jsonErr) {
                         throw new Error('Invalid token format. Expected JWT or Cacao object.');
                     }
@@ -147,7 +147,7 @@ export default class Verify extends Command {
         };
     }
 
-    private async handleCacao(cacao: Cacao, status: any) {
+    private async handleCacao(cacao: Cacao, status: any, rpcUrl?: string) {
         // Validate Cacao structure
         if (!cacao.h || !cacao.p || !cacao.s) {
             throw new Error('Invalid Cacao structure. Missing header, payload, or signature.');
@@ -187,11 +187,17 @@ export default class Verify extends Command {
         } else {
             // If we have the message, verify it
             try {
-                const valid = await verifyMessage({
-                    address: address as `0x${string}`,
-                    message: message,
-                    signature: cacao.s.s as `0x${string}`,
-                });
+                let valid = false;
+                if (rpcUrl) {
+                    valid = await this.verifySmartAccount(address, message, cacao.s.s, rpcUrl);
+                } else {
+                    valid = await verifyMessage({
+                        address: address as `0x${string}`,
+                        message: message,
+                        signature: cacao.s.s as `0x${string}`,
+                    });
+                }
+
                 status.valid = valid;
                 status.reason = valid ? 'Signature valid' : 'Signature invalid';
                 status.address = address;
