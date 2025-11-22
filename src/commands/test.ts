@@ -3,6 +3,7 @@ import { TestConfig, TestConfigSchema } from '../../types/test-schema.js';
 import { readFile } from 'fs/promises';
 import { parse as parseYaml } from 'yaml';
 import chalk from 'chalk';
+import { TestRunner } from '../../lib/test-runner.js';
 
 export default class Test extends Command {
     static description = 'Run automated authentication tests defined in a configuration file';
@@ -27,7 +28,9 @@ export default class Test extends Command {
             const config = await this.loadConfig(flags.file);
             this.log(chalk.green(`✓ Loaded configuration: ${config.description || 'No description'}`));
             this.log(chalk.gray(`Found ${config.cases.length} test cases.`));
-            // TODO: Execute test cases using a TestRunner (to be implemented)
+            const runner = new TestRunner(config);
+            const result = await runner.runAll();
+            this.log(chalk.green(`Test summary: ${result.passed} passed, ${result.failed} failed`));
         } catch (error) {
             this.error(`Failed to run tests: ${(error as Error).message}`);
         }
