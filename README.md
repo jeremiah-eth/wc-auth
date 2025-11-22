@@ -243,9 +243,47 @@ wc-auth request:social --provider twitter
 wc-auth request:social --provider discord
 ```
 
+### 2. Automated Testing
+Run automated authentication scenarios defined in a configuration file.
+
+```bash
+# Run tests from a file
+wc-auth test --file ./examples/auth-test.yaml
+
+# Run tests with JSON config
+wc-auth test -f ./tests/suite.json
+```
+
+**Configuration Format (YAML):**
+```yaml
+description: My Auth Test Suite
+cases:
+  - name: Basic SIWE
+    command: wc-auth request:siwe --chain eip155:1
+    expectations:
+      tokenClaims:
+        iss: did:pkh:eip155:1:0x...
+```
+
 ---
 
-### 2. Token Verification
+### 3. Deep Linking
+Generate deep links for mobile wallet testing.
+
+```bash
+# Generate a universal link
+wc-auth link "wc:..."
+
+# Generate a deep link for a specific wallet
+wc-auth link "wc:..." --wallet metamask
+
+# Generate a QR code in the terminal
+wc-auth link "wc:..." --qr
+```
+
+---
+
+### 4. Token Verification
 
 Decode and inspect JWT tokens and Cacao objects.
 
@@ -269,7 +307,14 @@ wc-auth verify <jwt_token> --output json > token-details.json
 - Signature verification status
 - Expiration time
 - Issuer and audience
+- Issuer and audience
 - Custom claims
+
+**Smart Account Verification (EIP-1271):**
+To verify signatures from Smart Accounts, provide an RPC URL:
+```bash
+wc-auth verify <token> --rpc https://mainnet.infura.io/v3/...
+```
 
 ---
 
