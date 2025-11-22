@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { decodeJwt, decodeProtectedHeader } from 'jose';
 import { table } from 'table';
 import { verifyMessage, recoverMessageAddress } from 'viem';
+import { getPublicClient } from '../utils/rpc-client.js';
 import { OutputFormatter, type OutputFormat } from '../utils/output-formatter.js';
 
 interface Cacao {
@@ -206,6 +207,19 @@ export default class Verify extends Command {
             payload: cacao.p,
             signature: cacao.s,
         };
+    }
+
+    private async verifySmartAccount(address: string, message: string, signature: string, rpcUrl?: string): Promise<boolean> {
+        try {
+            const publicClient = getPublicClient(rpcUrl);
+            return await publicClient.verifyMessage({
+                address: address as `0x${string}`,
+                message,
+                signature: signature as `0x${string}`,
+            });
+        } catch (error) {
+            return false;
+        }
     }
 
     private printPretty(result: any, status: any) {
